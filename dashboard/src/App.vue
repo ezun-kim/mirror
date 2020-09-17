@@ -20,13 +20,19 @@ export default {
 @import "assets/css/fonts.scss";
 
 body {
-  margin: 0;
-  padding: 0;
+  margin: 0px;
+  padding: 0px;
+  // border: 0;
+  // outline: 0;
   overflow: hidden;
 
   background: black;
 
   font-family: 'DOSGothic';
+}
+
+p {
+  margin: 0;
 }
 
 #app {

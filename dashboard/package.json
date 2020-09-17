@@ -10,7 +10,7 @@
   "dependencies": {
     "core-js": "^3.6.5",
     "es6-tween": "^5.5.11",
-    "vue": "^2.6.11",
+    "vue": "^2.6.12",
     "vuex": "^3.4.0"
   },
   "devDependencies": {

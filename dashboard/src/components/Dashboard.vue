@@ -1,40 +1,15 @@
 <template>
   <div class="container">
-    <div class="warning">
-      <div class="inner">
-        <h1>{{warningTitle}}</h1>
-        <p>발아위험! 발아위험!</p>
-        <p>수분을 제거하십시오! 습도를 낮추십시오!</p>
+    <div class="inner">
+      <h1>{{warningTitle}}</h1>
+      <p>{{warningText}}</p>
+
+      <div class="guage">
+        <div class="progress">
+          <p>{{~~(progress*100)}}%</p>
+        </div>
       </div>
     </div>
-    <!-- <h1>{{ msg }}</h1>
-    <p>
-      For a guide and recipes on how to configure / customize this project,<br>
-      check out the
-      <a href="https://cli.vuejs.org" target="_blank" rel="noopener">vue-cli documentation</a>.
-    </p>
-    <h3>Installed CLI Plugins</h3>
-    <ul>
-      <li><a href="https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-babel" target="_blank" rel="noopener">babel</a></li>
-      <li><a href="https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-vuex" target="_blank" rel="noopener">vuex</a></li>
-      <li><a href="https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-eslint" target="_blank" rel="noopener">eslint</a></li>
-    </ul>
-    <h3>Essential Links</h3>
-    <ul>
-      <li><a href="https://vuejs.org" target="_blank" rel="noopener">Core Docs</a></li>
-      <li><a href="https://forum.vuejs.org" target="_blank" rel="noopener">Forum</a></li>
-      <li><a href="https://chat.vuejs.org" target="_blank" rel="noopener">Community Chat</a></li>
-      <li><a href="https://twitter.com/vuejs" target="_blank" rel="noopener">Twitter</a></li>
-      <li><a href="https://news.vuejs.org" target="_blank" rel="noopener">News</a></li>
-    </ul>
-    <h3>Ecosystem</h3>
-    <ul>
-      <li><a href="https://router.vuejs.org" target="_blank" rel="noopener">vue-router</a></li>
-      <li><a href="https://vuex.vuejs.org" target="_blank" rel="noopener">vuex</a></li>
-      <li><a href="https://github.com/vuejs/vue-devtools#vue-devtools" target="_blank" rel="noopener">vue-devtools</a></li>
-      <li><a href="https://vue-loader.vuejs.org" target="_blank" rel="noopener">vue-loader</a></li>
-      <li><a href="https://github.com/vuejs/awesome-vue" target="_blank" rel="noopener">awesome-vue</a></li>
-    </ul> -->
   </div>
 </template>
 
@@ -47,22 +22,58 @@ export default {
   data() {
     return {
       timer: null,
-      warningTitles : ["WARNING", "긴급사태발령"],
+      timerTextType: null,
+
+      warningTitles : ["!발아위험!", "!긴급사태발령!", "!WARNING!"],
       warningTitleIndex: 0,
+
+      warningTexts : ["수분을 제거하십시오!", "습도를 낮추십시오!", "발아를 방지하십시오!", "DO NOT LET THE SEED GROW!"],
+      warningTextIndex: 0,
+      warningTextTypeIndex: 0,
+
+      progress: 0,
     }
   },
   created() {
     this.timer = setInterval(this.changeTitle, 1000)
+
+    this.startTypeText()
   },
   computed: {
     warningTitle() {
       return this.warningTitles[this.warningTitleIndex]
+    },
+    currentWarningText() {
+      return this.warningTexts[this.warningTextIndex]
+    },
+    warningText() {
+      return this.currentWarningText.substr(0, this.warningTextTypeIndex)
     }
   },
   methods: {
     changeTitle() {
-      console.log(this.warningTitleIndex)
       this.warningTitleIndex = (this.warningTitleIndex + 1) % this.warningTitles.length
+
+      this.progress = Math.random()
+    },
+    startTypeText() {
+      if (this.timerTextType != null) {
+        clearInterval(this.timerTextType)
+      }
+
+      this.timerTextType = setInterval(()=>{
+        this.warningTextTypeIndex++
+
+        if (this.warningTextTypeIndex == this.currentWarningText.length) {
+          clearInterval(this.timerTextType)
+          setTimeout(()=>{
+            this.warningTextTypeIndex = 0
+            this.warningTextIndex = (this.warningTextIndex + 1) % this.warningTexts.length
+            this.startTypeText()
+          }, 1500)
+        }
+      }, 30)
+
     }
   }
 }
@@ -73,15 +84,15 @@ export default {
 @keyframes blink {
   0% {
     // background-color: rgba(255,0,0,1)
-    opacity: 1;
+    opacity: 0;
   }
   50% {
     // background-color: rgba(255,0,0,0)
-    opacity: 0;
+    opacity: 1;
   }
   100% {
     // background-color: rgba(255,0,0,1)
-    opacity: 1;
+    opacity: 0;
   }
 }
 @keyframes animate-bg {
@@ -90,42 +101,12 @@ export default {
 }
 
 .container {
-  width: 100%;
-  height: 100%;
-}
-.warning {
   padding: 0px;
   margin: 0px;
 
   width: 100%;
   height: 100%;
 
-margin:0 auto;
-
-  h1 {
-    // position: absolute;
-    color: red;
-    font-size: 200px;
-
-    padding: 0px;
-    margin: 0px;
-    animation:blink normal 1s infinite ease-in-out;
-    
-  } 
-
-  p {
-    color: red;
-    font-size: 50px;
-    font-weight: bold;
-  }
-
-  .inner {
-    background: black;
-    // padding: 50px;
-    height: 90%;
-  }
-
-  // background: red;
   background-size: 100px 100px;
   background-image: linear-gradient(135deg, 
                     rgba(255, 0, 0, 1) 25%,
@@ -136,10 +117,80 @@ margin:0 auto;
                     transparent 75%,
                     transparent);
 
-  animation: animate-bg 1s linear infinite;
+  animation: animate-bg 0.7s linear infinite;
 
-  padding-top: 2px;
-  // // padding-bottom: 10px;
-  // padding: 2px 2px 2px 2px;
+  display: flex;
+  justify-content: center;
+
+  .inner {
+    background: black;
+
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+
+    width: 95%;
+    height: 90%;
+
+    border: 15px solid red;
+
+    // display: flex;
+    justify-content: center;
+
+    h1 {
+      // position: absolute;
+      height: 550px;
+      line-height: 800px;
+
+      color: red;
+      font-size: 200px;
+
+      padding: 0px;
+      margin: 0px;
+      animation: blink normal 0.5s infinite ease-in-out;
+    } 
+
+    p {
+      color: red;
+      font-size: 50px;
+      font-weight: bold;
+    }
+  }
+
+  .guage {
+    background: black;
+    border: 9px solid red;
+
+    width: 80%;
+    height: 60px;
+
+    position: absolute;
+    top: 780px;
+    left: 50%;
+    transform: translate(-50%, 0%);
+
+    .progress {
+      border-right: 5px solid red;
+      background-size: 10px 10px;
+      background-image: linear-gradient(270deg, 
+                        rgba(255, 0, 0, 1) 25%,
+                        transparent 25%,
+                        transparent 50%,
+                        rgba(255, 0, 0, 1) 50%, 
+                        rgba(255, 0, 0, 1) 75%,
+                        transparent 75%,
+                        transparent);
+
+      animation: animate-bg 2.7s linear infinite;
+      width: 10%;
+      height: 100%;
+
+      p {
+        color: red;
+      }
+    }
+  }
 }
+
+
 </style>

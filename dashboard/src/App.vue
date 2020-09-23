@@ -1,17 +1,16 @@
 <template>
   <div id="app">
-    <!-- <img alt="Vue logo" src="./assets/logo.png"> -->
-    <Dashboard msg="Welcome to Your Vue.js App"/>
+    <ControlScreen />
   </div>
 </template>
 
 <script>
-import Dashboard from './components/Dashboard.vue'
+import ControlScreen from './components/ControlScreen.vue'
 
 export default {
   name: 'App',
   components: {
-    Dashboard
+    ControlScreen
   }
 }
 </script>

@@ -1,11 +1,13 @@
 <template>
-  <div class="container">
+  <div :class="classes" :style="`--color: ${success?'rgb(0,255,0)':'rgb(255,0,0)'}`">
     <div class="inner">
-      <h1>{{warningTitle}}</h1>
-      <p>{{warningText}}</p>
+      <h1 v-if="success" class="success">{{successTitle}}</h1>
+      <h1 v-else class="warning">{{warningTitle}}</h1>
+      <p v-if="success" class="success">{{successText}}</p>
+      <p v-else class="warning">{{warningText}}</p>
 
       <div class="guage">
-        <div class="progress">
+        <div class="progress" :style="progressStyle">
           <p>{{~~(progress*100)}}%</p>
         </div>
       </div>
@@ -15,14 +17,17 @@
 
 <script>
 export default {
-  name: 'Dashboard',
+  name: 'ControlScreen',
   props: {
-    msg: String
+    // msg: String
   },
   data() {
     return {
       timer: null,
       timerTextType: null,
+
+      successTitle : "보안해제",
+      successText : "보안이 해제되었습니다.",
 
       warningTitles : ["!발아위험!", "!긴급사태발령!", "!WARNING!"],
       warningTitleIndex: 0,
@@ -36,8 +41,11 @@ export default {
   },
   created() {
     this.timer = setInterval(this.changeTitle, 1000)
-
     this.startTypeText()
+  },
+  mounted() {
+    window.removeEventListener("keydown", this.keyEvent);
+    window.addEventListener("keydown", this.keyEvent);
   },
   computed: {
     warningTitle() {
@@ -48,13 +56,29 @@ export default {
     },
     warningText() {
       return this.currentWarningText.substr(0, this.warningTextTypeIndex)
+    },
+    progressStyle() {
+      return {'width' : `${this.progress * 100}%`}
+    },
+    success() {
+      return this.progress >= 1
+    },
+    tweenedProgress() {
+      return this.progress
+    },
+    classes() {
+      return {'container' : true,
+              'successBg' : this.success,
+              'warningBg' : !this.success,
+              }
     }
   },
   methods: {
     changeTitle() {
       this.warningTitleIndex = (this.warningTitleIndex + 1) % this.warningTitles.length
 
-      this.progress = Math.random()
+      // let noise = -0.005+Math.random()*0.01
+      // this.progress +=  this.progress < 0 ? 0 : noise
     },
     startTypeText() {
       if (this.timerTextType != null) {
@@ -74,6 +98,36 @@ export default {
         }
       }, 30)
 
+    },
+
+    keyEvent(e) {
+      console.log(e.key);
+      switch (e.key) {
+        case "1":
+          this.progress = 0
+        break
+        case "2":
+          this.progress = 0.25
+        break
+        case "3":
+          this.progress = 0.5
+        break
+        case "4":
+          this.progress = 0.75
+        break
+        case "5":
+          this.progress = 1
+        break
+
+        case "ArrowRight":
+        case "ArrowUp":
+        case "ArrowDown":
+        case "Enter":
+        case " ":
+        case "Delete": 
+        case "Escape":
+        break
+      }
     }
   }
 }
@@ -83,15 +137,12 @@ export default {
 <style scoped lang="scss">
 @keyframes blink {
   0% {
-    // background-color: rgba(255,0,0,1)
     opacity: 0;
   }
   50% {
-    // background-color: rgba(255,0,0,0)
     opacity: 1;
   }
   100% {
-    // background-color: rgba(255,0,0,1)
     opacity: 0;
   }
 }
@@ -100,24 +151,40 @@ export default {
   to { background-position: -200px 0; }
 }
 
+.successBg {
+  background-size: 100px 100px;
+  background-image: linear-gradient(135deg, 
+                    var(--color) 25%,
+                    transparent 25%,
+                    transparent 50%,
+                    var(--color) 50%, 
+                    var(--color) 75%,
+                    transparent 75%,
+                    transparent);
+
+  animation: animate-bg 5.7s linear infinite;
+}
+
+.warningBg {
+  background-size: 100px 100px;
+  background-image: linear-gradient(135deg, 
+                    var(--color) 25%,
+                    transparent 25%,
+                    transparent 50%,
+                    var(--color) 50%, 
+                    var(--color) 75%,
+                    transparent 75%,
+                    transparent);
+
+  animation: animate-bg 0.7s linear infinite;
+}
+
 .container {
   padding: 0px;
   margin: 0px;
 
   width: 100%;
   height: 100%;
-
-  background-size: 100px 100px;
-  background-image: linear-gradient(135deg, 
-                    rgba(255, 0, 0, 1) 25%,
-                    transparent 25%,
-                    transparent 50%,
-                    rgba(255, 0, 0, 1) 50%, 
-                    rgba(255, 0, 0, 1) 75%,
-                    transparent 75%,
-                    transparent);
-
-  animation: animate-bg 0.7s linear infinite;
 
   display: flex;
   justify-content: center;
@@ -132,7 +199,7 @@ export default {
     width: 95%;
     height: 90%;
 
-    border: 15px solid red;
+    border: 15px solid var(--color);
 
     // display: flex;
     justify-content: center;
@@ -142,16 +209,20 @@ export default {
       height: 550px;
       line-height: 800px;
 
-      color: red;
+      color: var(--color);
       font-size: 200px;
 
       padding: 0px;
       margin: 0px;
-      animation: blink normal 0.5s infinite ease-in-out;
     } 
 
+
+      .warning {
+        animation: blink normal 0.5s infinite ease-in-out;
+      }
+      
     p {
-      color: red;
+      color: var(--color);
       font-size: 50px;
       font-weight: bold;
     }
@@ -159,7 +230,7 @@ export default {
 
   .guage {
     background: black;
-    border: 9px solid red;
+    border: 9px solid var(--color);
 
     width: 80%;
     height: 60px;
@@ -170,23 +241,26 @@ export default {
     transform: translate(-50%, 0%);
 
     .progress {
-      border-right: 5px solid red;
+      border-right: 5px solid var(--color);
       background-size: 10px 10px;
       background-image: linear-gradient(270deg, 
-                        rgba(255, 0, 0, 1) 25%,
+                        var(--color) 25%,
                         transparent 25%,
                         transparent 50%,
-                        rgba(255, 0, 0, 1) 50%, 
-                        rgba(255, 0, 0, 1) 75%,
+                        var(--color) 50%, 
+                        var(--color) 75%,
                         transparent 75%,
                         transparent);
 
       animation: animate-bg 2.7s linear infinite;
-      width: 10%;
+      // width: 10%;
       height: 100%;
 
+
+      transition: width .5s linear;
+
       p {
-        color: red;
+        color: var(--color);
       }
     }
   }

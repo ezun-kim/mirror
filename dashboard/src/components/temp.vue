@@ -1,25 +1,23 @@
 <template>
 <div class="effect">
-  <!-- <div class=""> -->
-    <div :class="classes" :style="`--color: ${success?'rgb(0,255,0)':'rgb(255,0,0)'}`">
-      <div class="inner ">
-        <h3 class="title glitch">
-          ADAMS COMPANY SECURITY SYSTEM
-        </h3>
+  <div :class="classes" :style="`--color: ${success?'rgb(0,255,0)':'rgb(255,0,0)'}`">
+      <h3 class="title">
+        ADAMS COMPANY SECURITY SYSTEM
+      </h3>
+    <div class="inner">
 
-        <h1 v-if="success" class="success glitch">{{successTitle}}</h1>
-        <h1 v-else class="warning">{{warningTitle}}</h1>
-        <p v-if="success" class="success">{{successText}}</p>
-        <p v-else class="warning">{{warningText}}</p>
+      <h1 v-if="success" class="success">{{successTitle}}</h1>
+      <h1 v-else class="warning">{{warningTitle}}</h1>
+      <p v-if="success" class="success">{{successText}}</p>
+      <p v-else class="warning">{{warningText}}</p>
 
-        <div class="guage">
-          <div class="progress" :style="progressStyle">
-            <p class="flicker glitch">{{~~(progress*100)}}%</p>
-          </div>
+      <div class="guage">
+        <div class="progress" :style="progressStyle">
+          <p class="flicker">{{~~(progress*100)}}%</p>
         </div>
       </div>
     </div>
-  <!-- </div> -->
+  </div>
 </div>
 </template>
 
@@ -143,13 +141,199 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
-@import '@/assets/css/animation.scss';
+
+
+@keyframes turn-on {
+  0% {
+    -webkit-transform: scale(1, .8) translate3d(0, 0, 0);
+    transform: scale(1, .8) translate3d(0, 0, 0);
+    opacity: 1
+  }
+  5% {
+    -webkit-transform: scale(1.09139, 1.34235) translate3d(0, 100%, 0);
+    transform: scale(1.09139, 1.34235) translate3d(0, 100%, 0)
+  }
+  10% {
+    -webkit-transform: scale(.63084, 1.40698) translate3d(0, -100%, 0);
+    transform: scale(.63084, 1.40698) translate3d(0, -100%, 0)
+  }
+  15% {
+    -webkit-transform: scale(.75142, 1.34118) translate3d(0, 100%, 0);
+    transform: scale(.75142, 1.34118) translate3d(0, 100%, 0)
+  }
+  20% {
+    -webkit-transform: scale(.96173, 1.36858) translate3d(0, -100%, 0);
+    transform: scale(.96173, 1.36858) translate3d(0, -100%, 0)
+  }
+  25% {
+    -webkit-transform: scale(1.1348, 1.02729) translate3d(0, 100%, 0);
+    transform: scale(1.1348, 1.02729) translate3d(0, 100%, 0)
+  }
+  30% {
+    -webkit-transform: scale(.97038, .71092) translate3d(0, -100%, 0);
+    transform: scale(.97038, .71092) translate3d(0, -100%, 0)
+  }
+  35% {
+    -webkit-transform: scale(.6067, 1.31101) translate3d(0, 100%, 0);
+    transform: scale(.6067, 1.31101) translate3d(0, 100%, 0)
+  }
+  40% {
+    -webkit-transform: scale(.786, .9326) translate3d(0, -100%, 0);
+    transform: scale(.786, .9326) translate3d(0, -100%, 0)
+  }
+  45% {
+    -webkit-transform: scale(1.38602, 1.14399) translate3d(0, 100%, 0);
+    transform: scale(1.38602, 1.14399) translate3d(0, 100%, 0)
+  }
+  50% {
+    -webkit-transform: scale(.69973, .90412) translate3d(0, -100%, 0);
+    transform: scale(.69973, .90412) translate3d(0, -100%, 0)
+  }
+  51% {
+    -webkit-transform: scale(1, 1) translate3d(0, 0, 0);
+    transform: scale(1, 1) translate3d(0, 0, 0);
+    -webkit-filter: brightness(1) saturate(1);
+    filter: brightness(1) saturate(1);
+    opacity: 0
+  }
+  100% {
+    -webkit-transform: scale(1, 1) translate3d(0, 0, 0);
+    transform: scale(1, 1) translate3d(0, 0, 0);
+    -webkit-filter: contrast(1) brightness(1.2) saturate(1.3);
+    filter: contrast(1) brightness(1.2) saturate(1.3);
+    opacity: 1
+  }
+}
+
+@keyframes turn-off {
+  0% {
+    -webkit-transform: scale(1, 1.3) translate3d(0, 0, 0);
+    transform: scale(1, 1.3) translate3d(0, 0, 0);
+    -webkit-filter: brightness(1);
+    filter: brightness(1);
+    opacity: 1
+  }
+  60% {
+    -webkit-transform: scale(1.3, .001) translate3d(0, 0, 0);
+    transform: scale(1.3, .001) translate3d(0, 0, 0);
+    -webkit-filter: brightness(10);
+    filter: brightness(10)
+  }
+  100% {
+    -webkit-animation-timing-function: cubic-bezier(.755, .05, .855, .06);
+    animation-timing-function: cubic-bezier(.755, .05, .855, .06);
+    -webkit-transform: scale(0, .0001) translate3d(0, 0, 0);
+    transform: scale(0, .0001) translate3d(0, 0, 0);
+    -webkit-filter: brightness(50);
+    filter: brightness(50)
+  }
+}
+
+@keyframes flashText {
+  0% {
+    opacity: .3
+  }
+  100% {
+    opacity: 1
+  }
+}
+
+@keyframes flicker {
+  0% {
+    opacity: .86139
+  }
+  5% {
+    opacity: .12793
+  }
+  10% {
+    opacity: .36759
+  }
+  15% {
+    opacity: .9766
+  }
+  20% {
+    opacity: .61364
+  }
+  25% {
+    opacity: .94477
+  }
+  30% {
+    opacity: .57811
+  }
+  35% {
+    opacity: .03416
+  }
+  40% {
+    opacity: .21835
+  }
+  45% {
+    opacity: .62054
+  }
+  50% {
+    opacity: .89452
+  }
+  55% {
+    opacity: .89997
+  }
+  60% {
+    opacity: .37872
+  }
+  65% {
+    opacity: .04929
+  }
+  70% {
+    opacity: .14477
+  }
+  75% {
+    opacity: .27512
+  }
+  80% {
+    opacity: .84701
+  }
+  85% {
+    opacity: .85952
+  }
+  90% {
+    opacity: .76553
+  }
+  95% {
+    opacity: .91372
+  }
+  100% {
+    opacity: .05536
+  }
+}
+
+@keyframes steady {
+  from {
+    background: rgba(255, 230, 230, .1)
+  }
+  to {
+    background: rgba(49, 45, 45, .1)
+  }
+}
+
+@keyframes blink {
+  0% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+@keyframes animate-bg {
+  from { background-position: 0 0; }
+  to { background-position: -200px 0; }
+}
 
 .title {
   text-transform: uppercase;
   text-align: center;
   color: var(--color);
-  line-height: 150px;
+  line-height: 50px;
 }
 
 .title::after,
@@ -202,7 +386,7 @@ export default {
   justify-content: center;
 
   text-shadow: 0 0 5px var(--color);
-  color: var(--color);
+        color: var(--color);
 
   .inner {
     background: url(https://image.ibb.co/h2hLAJ/bg.png) #000;
@@ -220,9 +404,9 @@ export default {
     justify-content: center;
 
     h1 {
-      height: 350px;
-      // margin-top: 200px;
-      line-height: 350px;
+
+      height: 550px;
+      line-height: 800px;
 
       color: var(--color);
       font-size: 200px;
@@ -231,9 +415,10 @@ export default {
       margin: 0px;
     } 
 
-    .warning {
-      animation: blink normal 0.5s infinite ease-in-out;
-    }
+
+      .warning {
+        animation: blink normal 0.5s infinite ease-in-out;
+      }
       
     p {
       color: var(--color);

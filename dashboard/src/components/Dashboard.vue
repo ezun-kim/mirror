@@ -1,28 +1,24 @@
 <template>
-  <div>
+  <div class="container">    
+    <div class="glitch">
+    <div class="header">
+      <div class="hydra_rebooting">
+        <h1>SCREEN 00{{this.$route.params.id}}</h1>
+        <p>SCREEN 00{{this.$route.params.id}}</p>
+      </div>
+    </div>
 
-    <ul class="tabs-demo">
-  <li>
-    <input type="radio" name="tab" id="tab1" checked>
-    <label for="tab1">Tab1</label>
-    <div class="section"> Section1 </div>
-  </li>
-  <li>
-    <input type="radio" name="tab" id="tab2">
-    <label for="tab2">Tab2</label>
-    <div class="section"> Section2 </div>
-  </li>
-  <li>
-    <input type="radio" name="tab" id="tab3">
-    <label for="tab3">Tab3</label>
-    <div class="section"> Section3 </div>
-  </li>
-  <li>
-    <input type="radio" name="tab" id="tab4">
-    <label for="tab4">Tab4</label>
-    <div class="section"> Section4 </div>
-  </li>
-</ul>
+      <div class="hydra">
+        -SLOTZ-
+      </div>
+          <div class="hydra">
+        -THE LUST-
+      </div>
+          <div class="hydra">
+        -CAFE SLOTH-
+      </div>
+    </div>
+  <div class="scanline"></div>
   </div>
 </template>
 
@@ -73,88 +69,57 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.tabs-demo {
- list-style: none;
- position: relative;
- width: 600px;
- margin: 50px auto;
- padding: 0;
- font-size: 18px;
- color: #00bebe;
+
+@import "@/assets/css/terminal.scss";
+@import "@/assets/css/animation.scss";
+
+$keycolor: #66ffff;
+
+.container {
+  font-family: SFMono-Regular, Consolas, Liberation Mono, Menlo, Courier;
+    
+  position: relative;
+  width: 100%;
+  height: 100%;
+
+  background-color: #00050f;
+	background-image: url(http://api.thumbr.it/whitenoise-200x200.png?background=00000000&noise=626262&density=15&opacity=15);
+	background-size: 100px;
+	color: $keycolor;
+  text-shadow: 0 0 5px rgba($keycolor, 0.6);
 }
 
-//https://augmented-ui.com
-.tabs-demo * {
- -webkit-transition: all 200ms ease-in-out;
- transition: all 200ms ease-in-out;
- outline: none;
+.header {
+  box-shadow: 0 0 2px $keycolor, inset 0 0 2px $keycolor;
+  background: $keycolor;
+  color: black;
+
+  padding: 2vw;
+  border: 0.2vw solid $keycolor;
+  
+  height: 500px;
+
+  float: left;
 }
 
-.tabs-demo :before,
-.tabs-demo :after { content: ''; }
+.hydra {
+  box-shadow: 0 0 2px $keycolor, inset 0 0 2px $keycolor;
+  padding: 2vw;
+  border: 0.2vw solid $keycolor;
 
-.tabs-demo li { display: inline-block; }
-
-.tabs-demo li input[type=radio] {
- filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=0);
- opacity: 0;
- position: absolute;
+  height: 500px;
+  width: 15%;
+  float: left;
 }
 
-.tabs-demo li input[type=radio]:checked ~ label {
- box-shadow: 0 0 10px #00dcdc;
- background: #00bebe;
- color: #212121;
- height: 50px;
- font-size: 1.2em;
- cursor: default;
+.scanline {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(255, 255, 255, 0.03);
+  animation: scanline 6s linear infinite;
 }
 
-.tabs-demo li input[type=radio]:checked ~ .section {
- filter: progid:DXImageTransform.Microsoft.Alpha(enabled=false);
- opacity: 1;
- display: block;
- width: 500px;
- padding: 50px;
- border: 1px solid #00bebe;
- color: #00dcdc;
- letter-spacing: .1em;
- text-indent: 1em;
- z-index: 99;
-}
-
-.tabs-demo li label {
- border-radius: 5px 5px 0 0;
- display: block;
- width: 120px;
- height: 40px;
- border: 1px solid rgba(0, 190, 190, 0.7);
- border-bottom: 0;
- color: rgba(0, 190, 190, 0.7);
- line-height: 50px;
- text-align: center;
- cursor: pointer;
-}
-
-.tabs-demo li label:hover {
- height: 50px;
- border-color: #00bebe;
- color: #00bebe;
-}
-
-.tabs-demo li .section {
- filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=0);
- opacity: 0;
- position: absolute;
- top: 51px;
- left: 0;
- width: 1000px;
- padding: 50px;
- border: 1px solid #00bebe;
- background: rgba(0, 190, 190, 0.1);
- color: white;
- letter-spacing: -1em;
- text-indent: 1em;
- z-index: 1;
-}
 </style>

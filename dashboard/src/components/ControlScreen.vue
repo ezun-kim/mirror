@@ -9,8 +9,8 @@
 
         <h1 v-if="success" class="success glitch">{{successTitle}}</h1>
         <h1 v-else class="warning">{{warningTitle}}</h1>
-        <p v-if="success" class="success">{{successText}}</p>
-        <p v-else class="warning">{{warningText}}</p>
+        <p v-if="success" class="success subtitle">{{successText}}</p>
+        <p v-else class="warning subtitle">{{warningText}}</p>
 
         <div class="guage">
           <div class="progress" :style="progressStyle">
@@ -222,14 +222,31 @@ export default {
     h1 {
       height: 350px;
       // margin-top: 200px;
-      line-height: 350px;
 
+      // position: relative;
+      // display: inline-block;
+      // top: 0px;
+      // line-height: 350px;
+
+      position: absolute;
+      top: 300px;
+      left: 50%;
+      width: 100%;
+
+      transform: translateX(-50%);
       color: var(--color);
       font-size: 200px;
 
       padding: 0px;
       margin: 0px;
     } 
+
+    .subtitle {
+      position: absolute;
+      top: 600px;
+      // left: 50%;
+      width: 100%;
+    }
 
     .warning {
       animation: blink normal 0.5s infinite ease-in-out;
@@ -240,6 +257,8 @@ export default {
       font-size: 50px;
       font-weight: bold;
     }
+
+
   }
 
   .guage {

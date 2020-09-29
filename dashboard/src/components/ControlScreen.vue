@@ -7,8 +7,8 @@
           ADAMS COMPANY SECURITY SYSTEM
         </h3>
 
-        <h1 v-if="success" class="success glitch">{{successTitle}}</h1>
-        <h1 v-else class="warning">{{warningTitle}}</h1>
+        <h1 v-if="success" class="success">{{successTitle}}</h1>
+        <h1 v-else class="warning glitch">{{warningTitle}}</h1>
         <p v-if="success" class="success subtitle">{{successText}}</p>
         <p v-else class="warning subtitle">{{warningText}}</p>
 

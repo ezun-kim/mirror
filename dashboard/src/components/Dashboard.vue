@@ -9,19 +9,35 @@
           <h2>GLOBAL SECURITY SYSTEM</h2>
           <h1>DASHBOARD</h1>
           <p>SCREEN NUMBER 00{{this.$route.params.id}} / SEOUL BRANCH</p>
-          <div class="crossbar"></div>
+          <div class="crossbar" style="margin-top: 30px;"></div>
 
 
-          <div class="loader loader--style1" title="0">
-            <svg version="1.1" id="loader-1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-            width="40px" height="40px" viewBox="0 0 40 40" enable-background="new 0 0 40 40" xml:space="preserve">
-            <path opacity="0.2" fill="#000" d="M20.201,5.169c-8.254,0-14.946,6.692-14.946,14.946c0,8.255,6.692,14.946,14.946,14.946 s14.946-6.691,14.946-14.946C35.146,11.861,28.455,5.169,20.201,5.169z M20.201,31.749c-6.425,0-11.634-5.208-11.634-11.634 c0-6.425,5.209-11.634,11.634-11.634c6.425,0,11.633,5.209,11.633,11.634C31.834,26.541,26.626,31.749,20.201,31.749z"/>
-            <path fill="#000" d="M26.013,10.047l1.654-2.866c-2.198-1.272-4.743-2.012-7.466-2.012h0v3.312h0 C22.32,8.481,24.301,9.057,26.013,10.047z">
-              <animateTransform attributeType="xml" attributeName="transform" type="rotate" from="0 20 20" to="360 20 20" dur="0.5s" repeatCount="indefinite"/>
-            </path>
-            </svg>
+          <Inbox :message="messages[currentMessage]"></Inbox>
+
+          <div class="crossbar" style="margin-top: 20px;"></div>
+
+          <p style="margin-top: 20px;">SECURITY SYSTEM STATUS METER</p>
+
+          <AnalogMeter title="전압" mode="random" :min="50" :max="90" :dispmin="210" :dispmax="230" :speed="0.1" :prefix='`V`'></AnalogMeter>
+          <AnalogMeter title="전력" mode="updown" :min="50" :max="90" :dispmin="30" :dispmax="50" :speed="0.01" :prefix='`kWh`'></AnalogMeter>
+
+          <AnalogMeter title="CPU" mode="updown" :min="50" :max="90" :dispmin="50" :dispmax="90" :speed="0.01" :prefix='`%`'></AnalogMeter>
+          <AnalogMeter title="RAM" mode="updown" :min="50" :max="90" :dispmin="50" :dispmax="90" :speed="0.01" :prefix='`%`'></AnalogMeter>
+
+          <AnalogMeter title="온도" mode="updown" :min="50" :max="90" :dispmin="29" :dispmax="36" :speed="0.01" :prefix='`°C`'></AnalogMeter>
+          <AnalogMeter title="습도" mode="updown" :min="50" :max="90" :dispmin="40" :dispmax="50" :speed="0.01" :prefix='`%`'></AnalogMeter>
+
+          <!-- <div class="progress--circle progress--50">
+            <div class="progress__number">50%</div>
           </div>
 
+          <div class="progress--circle progress--75">
+            <div class="progress__number">75%</div>
+          </div>
+            
+          <div class="progress--circle progress--100">
+            <div class="progress__number">100%</div>
+          </div> -->
   <!-- 
           <div class="loader loader--style5" title="4">
             <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
@@ -133,12 +149,26 @@
 </template>
 
 <script>
+import AnalogMeter from './AnalogMeter.vue'
+import Inbox from './Inbox.vue'
+
 export default {
   name: 'Dashboard',
+  components: {
+    AnalogMeter,
+    Inbox,
+  },
   props: {
   },
   data() {
     return {
+      messages : ["신규수신메세지가 없습니다.. 메세지가 수신되면 이곳에 표시됩니다.",
+                  "적합선언서(Declaration of Conformity: DoC)란, 그 제품이 각 지 령의 요구에 적합하다는 것을 증명하는 문서를 말합니다. 제조업자 혹은 임명된 대리인이 선언합니다. 작성한 적합선언서는 기술 문서와 함께 보관 합니다. 구체적인 적합선언서의 기재 예시는 R&TTE Guide Version of 20 April 2009의 Annex 1을 참조하여 주십시오.", 
+                  "R&TTE 지령에 해당하는 모든 기기는 다음의 등급으로 식별합니다.  등급1... EU전지역에서사용가능한무선/통신단말기기", 
+                  "R&TTE 지령의 저전압 요구, EMC 요구는 New Approach 지령의 저전압", 
+                  "지령과EMC지령의필수요구를포함하고있기때문에각지령을중복적 용할 필요는 없습니다 .", 
+                  ],
+      currentMessage: 0,
     }
   },
   created() {
@@ -154,12 +184,16 @@ export default {
       console.log(e.key);
       switch (e.key) {
         case "1":
+          this.currentMessage = 1
         break
         case "2":
+          this.currentMessage = 2
         break
         case "3":
+          this.currentMessage = 3
         break
         case "4":
+          this.currentMessage = 4
         break
         case "5":
         break
@@ -204,6 +238,8 @@ $keycolor: #66ffff;
   background: $keycolor;
   color: black;
 
+  
+
   // padding: 2vw;
   border: 2px solid $keycolor;
   
@@ -214,6 +250,7 @@ $keycolor: #66ffff;
 
   // padding-top : 20px;
   margin: 10px;
+
 
   .loader {
     height: 80px;
@@ -235,8 +272,6 @@ $keycolor: #66ffff;
 .crossbar {
   width : 100%;
   height: 2px;
-
-  margin-top: 30px;
 
   background: black;
 

@@ -3,9 +3,12 @@ import App from './App.vue'
 import store from './store'
 import VueRouter from 'vue-router'
 
+
 import ControlScreen from './components/ControlScreen.vue'
 import Dashboard from './components/Dashboard.vue'
 
+
+import "./fontawesome.js"
 Vue.use(VueRouter)
 
 const routes = [
